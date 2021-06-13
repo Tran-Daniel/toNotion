@@ -4,11 +4,11 @@
  * @param {!express:Request} req HTTP request context.
  * @param {!express:Response} res HTTP response context.
  */
-exports.helloWorld = (req, res) => {
+exports.toNotion = (req, res) => {
   let message = {
     "query" : req.query,
     "request" : req.body,
-    "default message": 'Hello World!'
+    "default message": 'Hello my world!'
   };
   res.status(200).send(message);
 };
