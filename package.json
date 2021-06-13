@@ -1,4 +1,23 @@
 {
   "name": "sample-http",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "description": "toNotion is an extension that takes text from site and brings it into Notion using Notion's API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tran-Daniel/toNotion.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tran-Daniel/toNotion/issues"
+  },
+  "homepage": "https://github.com/Tran-Daniel/toNotion#readme",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^1.8.0",
+    "dotenv": "^10.0.0"
+  }
 }
