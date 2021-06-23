@@ -26,7 +26,11 @@ You will also need an .env file with the following values:
 ## links
 
 https://medium.com/google-cloud/debugging-node-google-cloud-functions-locally-in-vs-code-e6b912eb3f84
+node --inspect node_modules/@google-cloud/functions-framework --target=toNotion
+
 https://medium.com/developer-secrets/storing-credentials-the-right-way-78074ae21727
+
+https://www.notion.so/my-integrations/internal/063b1b2f8e0546789dfcf20329384fea
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
