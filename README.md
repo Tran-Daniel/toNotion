@@ -32,5 +32,13 @@ https://medium.com/developer-secrets/storing-credentials-the-right-way-78074ae21
 
 https://www.notion.so/my-integrations/internal/063b1b2f8e0546789dfcf20329384fea
 
+
+## To Do:
+
+Make requests.js more generic
+
+BUG: title not working (untitled)
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+
