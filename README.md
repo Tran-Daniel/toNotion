@@ -20,8 +20,10 @@ gcloud functions deploy sendToNotion --entry-point toNotion --runtime nodejs14
 ```
 
 You will also need an .env file with the following values:
+- NOTION_API_KEY
+- DATABASE_ID
+- PAGE_ID
 - COLOR
-- TBA
 
 ## links
 

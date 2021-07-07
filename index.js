@@ -5,7 +5,7 @@
  * @param {!express:Response} res HTTP response context.
  */
 let dotenv = require("dotenv");
-const { appendBlock, createPage, readBlocks} = require("./requests");
+const { appendBlock, createPage, readBlocks, formulateChildrenBlocks} = require("./requests");
 
 // if .env file is located in root directory
 dotenv.config();
@@ -21,7 +21,22 @@ exports.toNotion = async (req, res) => {
   };
   res.status(200).send(message);
 
-  // page = await createPage(process.env.PAGE_ID);
+  let info = [{
+    blockType : "paragraph",
+    content : "test content from Mista Daniel Tran"
+  },
+  {
+    blockType : "heading_2",
+    content : "Test Heading choo choooooo"
+  }];
+
+  
+
+  page = await createPage(process.env.PAGE_ID);
   // blocks = await readBlocks(page.id);
-  // appendBlock(blocks.results[0].id);
+
+  childrenBlocks = formulateChildrenBlocks(info);
+  console.log(childrenBlocks);
+  appendBlock(page.id, childrenBlocks);
+  console.log("Hello");
 };
