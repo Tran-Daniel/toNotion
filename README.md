@@ -16,6 +16,8 @@ Body should look like
 
 All pages are being made within a private page right now.
 
+Right now "text" has a limit of 2000 chars, we will need to change this by using some sort of stream and adding more blocks.
+
 Eventually, page_id will be included in body as well as api key.
 
 ## Deployment to GC Functions
@@ -34,7 +36,6 @@ gcloud functions deploy sendToNotion --entry-point toNotion --runtime nodejs14
 
 You will also need an .env file with the following values:
 - NOTION_API_KEY
-- DATABASE_ID
 - PAGE_ID
 
 ## links
@@ -49,9 +50,9 @@ https://www.notion.so/my-integrations/internal/063b1b2f8e0546789dfcf20329384fea
 
 ## To Do:
 
-Make requests.js more generic
+Formatting of Page (Expand on this - make detailed tickets)
 
-Add CORS to cloud functions
+Make requests.js more generic
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
