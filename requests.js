@@ -13,17 +13,14 @@ async function createPage(id, titleName) {
       page_id: id,
     },
     properties: {
-      Name: {
-        type: 'title',
-        title: [
-          {
-            type: 'text',
-            text: {
-              content: titleName,
-            },
+      title: [
+        {
+          type: "text",
+          text: {
+            content: titleName,
           },
-        ],
-      },
+        },
+      ],
     },
 
     children: [],
@@ -84,4 +81,9 @@ async function appendBlock(id, childrenBlocks) {
   return response;
 }
 
-module.exports = { appendBlock, createPage, readBlocks, formulateChildrenBlocks };
+module.exports = {
+  appendBlock,
+  createPage,
+  readBlocks,
+  formulateChildrenBlocks,
+};

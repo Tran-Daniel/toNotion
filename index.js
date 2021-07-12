@@ -25,10 +25,19 @@ exports.toNotion = async (req, res) => {
     req.body.title = "Default Test Title"
   }
 
+  if (!('header' in req.body)) {
+    req.body.header = "Default Test Header"
+  }
+
+  if (!('parentPageID' in req.body)) {
+    req.body.parentPageID = process.env.PAGE_ID
+  }
+
+
   let info = [
     {
       blockType: "heading_2",
-      content: "Test Heading choo choooooo",
+      content: req.body.header,
     },
     {
       blockType: "paragraph",
@@ -36,14 +45,12 @@ exports.toNotion = async (req, res) => {
     },
   ];
 
-  page = await createPage(process.env.PAGE_ID, req.body.title);
-  // blocks = await readBlocks(page.id);
-
+  page = await createPage(req.body.parentPageID, req.body.title);
   childrenBlocks = formulateChildrenBlocks(info);
   appendBlock(page.id, childrenBlocks);
 
   let message = {
-    pageID: page.id,
+    newPageID: page.id,
     info: info,
   };
 

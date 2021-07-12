@@ -10,7 +10,8 @@ Body should look like
 
 {
     "text" : "YOUR TEXT HERE",
-    "title" : "YOUR TITLE HERE"
+    "title" : "YOUR TITLE HERE",
+    "header" : "YOUR HEADER HERE"
 }
 
 All pages are being made within a private page right now.
@@ -50,7 +51,7 @@ https://www.notion.so/my-integrations/internal/063b1b2f8e0546789dfcf20329384fea
 
 Make requests.js more generic
 
-BUG: title not working (untitled)
+Add CORS to cloud functions
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
