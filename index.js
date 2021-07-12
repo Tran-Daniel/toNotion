@@ -5,38 +5,47 @@
  * @param {!express:Response} res HTTP response context.
  */
 let dotenv = require("dotenv");
-const { appendBlock, createPage, readBlocks, formulateChildrenBlocks} = require("./requests");
+const {
+  appendBlock,
+  createPage,
+  readBlocks,
+  formulateChildrenBlocks,
+} = require("./requests");
 
 // if .env file is located in root directory
 dotenv.config();
 
 exports.toNotion = async (req, res) => {
-  req.body = {
-    color: process.env.COLOR,
-  };
 
-  let message = {
-    color: req.body.color,
-    "default message": "Hello my world!",
-  };
-  res.status(200).send(message);
+  if (!('text' in req.body)) {
+    req.body.text = "No value for text found in req"
+  }
 
-  let info = [{
-    blockType : "paragraph",
-    content : "test content from Mista Daniel Tran"
-  },
-  {
-    blockType : "heading_2",
-    content : "Test Heading choo choooooo"
-  }];
+  if (!('title' in req.body)) {
+    req.body.title = "Default Test Title"
+  }
 
-  
+  let info = [
+    {
+      blockType: "heading_2",
+      content: "Test Heading choo choooooo",
+    },
+    {
+      blockType: "paragraph",
+      content: req.body.text,
+    },
+  ];
 
-  page = await createPage(process.env.PAGE_ID);
+  page = await createPage(process.env.PAGE_ID, req.body.title);
   // blocks = await readBlocks(page.id);
 
   childrenBlocks = formulateChildrenBlocks(info);
-  console.log(childrenBlocks);
   appendBlock(page.id, childrenBlocks);
-  console.log("Hello");
+
+  let message = {
+    pageID: page.id,
+    info: info,
+  };
+
+  res.status(200).send(message);
 };

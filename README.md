@@ -4,6 +4,18 @@ toNotion is an extension that takes text from site and brings it into Notion usi
 
 This repo contains the code that is being deployed to GC Functions.
 
+## Current Requirements for Requests
+
+Body should look like
+
+{
+    "text" : "YOUR TEXT HERE",
+    "title" : "YOUR TITLE HERE"
+}
+
+All pages are being made within a private page right now.
+
+Eventually, page_id will be included in body as well as api key.
 
 ## Deployment to GC Functions
 
@@ -23,7 +35,6 @@ You will also need an .env file with the following values:
 - NOTION_API_KEY
 - DATABASE_ID
 - PAGE_ID
-- COLOR
 
 ## links
 
