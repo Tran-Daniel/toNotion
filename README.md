@@ -50,9 +50,7 @@ https://www.notion.so/my-integrations/internal/063b1b2f8e0546789dfcf20329384fea
 
 ## To Do:
 
-Formatting of Page (Expand on this - make detailed tickets)
-
-Make requests.js more generic
+Authentication (To be investigated)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
