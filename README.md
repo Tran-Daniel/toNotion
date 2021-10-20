@@ -31,7 +31,7 @@ gcloud init
 
 // Login and navigate to the project
 
-gcloud functions deploy sendToNotion --entry-point toNotion --runtime nodejs14
+gcloud functions deploy sendToNotion --entry-point toNotion --runtime nodejs14 --trigger-http
 ```
 
 You will also need an .env file with the following values:
