@@ -4,6 +4,21 @@
  * @param {!express:Request} req HTTP request context.
  * @param {!express:Response} res HTTP response context.
  */
+
+ const Firestore = require('@google-cloud/firestore');
+ // Use your project ID here
+ const PROJECTID = 'studious-bit-325802';
+ const COLLECTION_NAME = 'jiggle-auth';
+
+ const firestore = new Firestore({
+   projectId: PROJECTID,
+   timestampsInSnapshots: true
+   // NOTE: Don't hardcode your project credentials here.
+   // If you have to, export the following to your shell:
+   //   GOOGLE_APPLICATION_CREDENTIALS=<path>
+   // keyFilename: '/cred/cloud-functions-firestore-000000000000.json',
+ });
+ 
 let dotenv = require("dotenv");
 const {
   appendBlock,
@@ -25,7 +40,9 @@ exports.toNotion = async (req, res) => {
     res.set('Access-Control-Allow-Headers', 'Content-Type');
     res.set('Access-Control-Max-Age', '3600');
     res.status(204).send('');
-  } else {
+
+  } else if (req.method === 'POST') {
+
     if (!('text' in req.body)) {
       req.body.text = "No value for text found in req"
     }
@@ -50,6 +67,44 @@ exports.toNotion = async (req, res) => {
       },
     ];
   
+    if (!(req.body && req.body.id)) {
+      return res.status(404).send({
+        error: req.body
+      });
+    }
+    const id = req.body.id.replace(/[^a-zA-Z0-9]/g, '').trim();
+    if (!(id && id.length)) {
+      return res.status(404).send({
+        error: 'Empty ID'
+      });
+    }
+
+    let accessToken = "empty"
+    
+    await firestore.collection(COLLECTION_NAME)
+    .doc(id)
+    .get()
+    .then(doc => {
+      if (!(doc && doc.exists)) {
+        return res.status(404).send({
+          error: 'Unable to find the document'
+        });
+      }
+      const data = doc.data();
+      if (!data) {
+        return res.status(404).send({
+          error: 'Found document is empty'
+        });
+      }
+      accessToken = data;
+    }).catch(err => {
+      console.error(err);
+      return res.status(404).send({
+        error: 'Unable to retrieve the document',
+        err
+      });
+    });
+
     page = await createPage(req.body.parentPageID, req.body.title);
     childrenBlocks = formulateChildrenBlocks(info);
     appendBlock(page.id, childrenBlocks);
@@ -57,8 +112,16 @@ exports.toNotion = async (req, res) => {
     let message = {
       newPageID: page.id,
       info: info,
-    };
+      accessToken: accessToken
+    }
   
     res.status(200).send(message);
+
+  } else {
+
+    res.status(404).send({
+      error: 'Unknown Request Type'
+    })
+
   }
 };
