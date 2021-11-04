@@ -1,6 +1,8 @@
 // requests.js
 // REQUESTS CLASS
 
+// TO DO
+// Create env yaml file to replace usage of dotenv
 let dotenv = require("dotenv");
 const fetch = require("node-fetch");
 const { Client } = require("@notionhq/client");
