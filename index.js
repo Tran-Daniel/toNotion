@@ -81,6 +81,8 @@ exports.toNotion = async (req, res) => {
 
     let accessToken = "empty"
     
+    // req.header (read cookie, use cookie to read from
+    // firestore, )
     await firestore.collection(COLLECTION_NAME)
     .doc(id)
     .get()
@@ -101,7 +103,6 @@ exports.toNotion = async (req, res) => {
       console.error(err);
       return res.status(404).send({
         error: 'Unable to retrieve the document',
-        err
       });
     });
 
