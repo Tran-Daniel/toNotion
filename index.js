@@ -81,7 +81,7 @@ exports.toNotion = async (req, res) => {
 
     let accessToken = "empty"
     
-    // req.header (read cookie, use cookie to read from
+    // TODO: req.header (read cookie, use cookie to read from
     // firestore, )
     await firestore.collection(COLLECTION_NAME)
     .doc(id)
