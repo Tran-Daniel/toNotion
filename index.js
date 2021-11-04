@@ -44,6 +44,47 @@ exports.toNotion = async (req, res) => {
     res.status(204).send('');
 
   } else if (req.method === 'POST') {
+    // First check user's credentials
+    let authorized = false;
+    let accessToken = '';
+
+    const cookies = req.headers.cookie?.split(';').reduce((res, item) => {
+      const data = item.trim().split('=');
+      return { ...res, [data[0]]: data[1] };
+    }, {});
+    const docId = cookies?.doc_id;
+    
+    if (docId && docId.length) {
+      await firestore.collection(COLLECTION_NAME)
+      .doc(docId)
+      .get()
+      .then(doc => {
+        if (!(doc && doc.exists)) {
+          return res.status(404).send({
+            error: 'Unable to find the document'
+          });
+        }
+        const data = doc.data();
+        if (!data) {
+          return res.status(404).send({
+            error: 'Found document is empty'
+          });
+        }
+        accessToken = data.accessToken;
+        authorized = true;
+      }).catch(err => {
+        console.error(err);
+        return res.status(404).send({
+          error: 'Unable to retrieve the document',
+        });
+      });
+    }
+
+    if (!authorized) {
+      return res.status(401).send({
+        error: 'Not authorized',
+      })
+    }
 
     if (!('text' in req.body)) {
       req.body.text = "No value for text found in req"
@@ -68,45 +109,6 @@ exports.toNotion = async (req, res) => {
         content: req.body.text,
       },
     ];
-  
-    if (!(req.body && req.body.id)) {
-      return res.status(404).send({
-        error: req.body
-      });
-    }
-    const id = req.body.id.replace(/[^a-zA-Z0-9]/g, '').trim();
-    if (!(id && id.length)) {
-      return res.status(404).send({
-        error: 'Empty ID'
-      });
-    }
-
-    let accessToken = "empty"
-    
-    // TODO: req.header (read cookie, use cookie to read from
-    // firestore, )
-    await firestore.collection(COLLECTION_NAME)
-    .doc(id)
-    .get()
-    .then(doc => {
-      if (!(doc && doc.exists)) {
-        return res.status(404).send({
-          error: 'Unable to find the document'
-        });
-      }
-      const data = doc.data();
-      if (!data) {
-        return res.status(404).send({
-          error: 'Found document is empty'
-        });
-      }
-      accessToken = data;
-    }).catch(err => {
-      console.error(err);
-      return res.status(404).send({
-        error: 'Unable to retrieve the document',
-      });
-    });
 
     page = await createPage(req.body.parentPageID, req.body.title);
     childrenBlocks = formulateChildrenBlocks(info);
