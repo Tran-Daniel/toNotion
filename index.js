@@ -32,7 +32,9 @@ dotenv.config();
 
 exports.toNotion = async (req, res) => {
 
-  res.set('Access-Control-Allow-Origin', '*');
+  // Echoing the req origin into the 'Access-Control-Allow-Origin' to enable credentialed cors
+  res.set('Access-Control-Allow-Origin', req.get('origin'));
+  res.set('Access-Control-Allow-Credentials', 'true');
 
   if (req.method === 'OPTIONS') {
     // Send response to OPTIONS requests
